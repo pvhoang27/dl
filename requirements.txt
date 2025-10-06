@@ -3,3 +3,4 @@ pprint
 tqdm
 tensorboard
 torchmetrics
+opencv-python
