@@ -4,3 +4,5 @@ tqdm
 tensorboard
 torchmetrics
 opencv-python
+ultralytics
+pandas
