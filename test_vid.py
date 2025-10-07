@@ -36,6 +36,14 @@ def test(args):
     model = model.float()
     model.to(device)
     cap = cv2.VideoCapture(args.video_path)
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+
+    size = (frame_width,frame_height)
+
+    out = cv2.VideoWriter('filename.mp4', cv2.VideoWriter(*'MJPG'), 10 , size)
+
+
     while cap.isOpened:
         flag , frame = cap.read()
         if not flag : 

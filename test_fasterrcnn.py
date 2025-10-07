@@ -53,7 +53,7 @@ def test(args):
                 category = categories[label]
                 cv2.putText(ori_image, category, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX ,
                             1, (0, 255, 0), 3, cv2.LINE_AA)
-        cv2.imwrite("prediction.jpg", ori_image)
+        cv2.imwrite("prediction2.jpg", ori_image)
 
 
 

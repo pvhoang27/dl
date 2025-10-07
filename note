@@ -4,3 +4,9 @@ source venv/Scripts/activate
 
 
 python test_fasterrcnn.py
+
+
+python test_fasterrcnn.py -i "image/anh-cho-thumbnail.jpg" -o "trained_models/best.pt" -c 0.3
+
+
+python test_fasterrcnn.py -i "image/anh-cho-thumbnail.jpg" -o "trained_models/early_stop.pt" -c 0.3
