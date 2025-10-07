@@ -41,8 +41,9 @@ def test(args):
 
     size = (frame_width,frame_height)
 
-    out = cv2.VideoWriter('filename.mp4', cv2.VideoWriter(*'MJPG'), 10 , size)
-
+    # out = cv2.VideoWriter('result.mp4', cv2.VideoWriter(*'MJPG'), 10 , size)
+    fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+    out = cv2.VideoWriter('result.mp4', fourcc, 10, size)
 
     while cap.isOpened:
         flag , frame = cap.read()
@@ -51,8 +52,7 @@ def test(args):
         
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image = np.transpose(image, (2, 0, 1))/255.
-        # image = [torch.from_numpy(image).to(device).float()]
-        image = [torch.from_numpy(image).float()]
+        image = [torch.from_numpy(image).to(device).float()]
         model.eval()
         with torch.no_grad():
             output = model(image)[0]
@@ -66,7 +66,11 @@ def test(args):
                     category = categories[label]
                     cv2.putText(frame, category, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX ,
                                 1, (0, 255, 0), 3, cv2.LINE_AA)
-            
+        out.write(frame)
+    
+    cap.release()
+    out.release()
+
 
 
 
