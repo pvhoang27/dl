@@ -34,26 +34,31 @@ def test(args):
     checkpoint = torch.load(args.saved_checkpoint, map_location="cpu")
     model.load_state_dict(checkpoint["model_state_dict"])
     model = model.float()
-    # model.to(device)
-    # ori_image = cv2.imread(args.image_path)
-    # image = cv2.cvtColor(ori_image, cv2.COLOR_BGR2RGB)
-    # image = np.transpose(image, (2, 0, 1))/255.
-    # # image = [torch.from_numpy(image).to(device).float()]
-    # image = [torch.from_numpy(image).float()]
-    # model.eval()
-    # with torch.no_grad():
-    #     output = model(image)[0]
-    #     bboxes = output["boxes"]
-    #     labels = output["labels"]
-    #     scores = output["scores"]
-    #     for bbox, label, score in zip(bboxes, labels, scores):
-    #         if score > args.conf_threshold:
-    #             xmin, ymin, xmax, ymax = bbox
-    #             cv2.rectangle(ori_image, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 0, 255), 3)
-    #             category = categories[label]
-    #             cv2.putText(ori_image, category, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX ,
-    #                         1, (0, 255, 0), 3, cv2.LINE_AA)
-    #     cv2.imwrite("prediction.jpg", ori_image)
+    model.to(device)
+    cap = cv2.VideoCapture(args.video_path)
+    while cap.isOpened:
+        flag , frame = cap.read()
+        if not flag : 
+            break
+        
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image = np.transpose(image, (2, 0, 1))/255.
+        # image = [torch.from_numpy(image).to(device).float()]
+        image = [torch.from_numpy(image).float()]
+        model.eval()
+        with torch.no_grad():
+            output = model(image)[0]
+            bboxes = output["boxes"]
+            labels = output["labels"]
+            scores = output["scores"]
+            for bbox, label, score in zip(bboxes, labels, scores):
+                if score > args.conf_threshold:
+                    xmin, ymin, xmax, ymax = bbox
+                    cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 0, 255), 3)
+                    category = categories[label]
+                    cv2.putText(frame, category, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX ,
+                                1, (0, 255, 0), 3, cv2.LINE_AA)
+            
 
 
 

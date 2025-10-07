@@ -124,7 +124,7 @@ def train(args):
             writer.add_scalar("Train/Loss", mean_loss, epoch * num_iters_per_epoch + iter)
 
             # Kiểm tra thời gian, nếu quá 5 phút thì dừng và lưu model
-            if time.time() - start_time > 100:
+            if time.time() - start_time > 60:
                 print("Đã train đủ 5 phút, dừng lại và lưu model...")
                 checkpoint = {
                     "model_state_dict": model.state_dict(),
