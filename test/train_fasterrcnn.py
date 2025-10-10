@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from voc_dataset import VOCDataset
+from test.voc_dataset import VOCDataset
 import argparse
 import torch
 from torch.utils.data import DataLoader
